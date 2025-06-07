@@ -1,82 +1,101 @@
-# CC = cc
-# CFLAGS = -Wall -Wextra -Werror
-# NAME = so_long
-
-# LIBFT_DIR = ./libft
-# LIBFT = $(LIBFT_DIR)/libft.a
-
-# SRCS = main.c
-
-# OBJ_FILES = $(SRCS:.c=.o)
-
-# ifeq ($(shell uname), Darwin)
-# 	MLX_DIR = ./mlx_mac
-# 	LIBS = -framework OpenGL -framework AppKit
-# else
-# 	MLX_DIR = ./mlx_linux
-# 	LIBS = -lXext -lX11 -lm
-# endif
-
-# all:
-# 	$(CC) $(SRC) -L$(MLX_DIR) -lmlx $(LIBS) -o so_long
-
-# all: $(LIBFT) $(NAME)
-
-# $(LIBFT):
-# 	$(MAKE) -C $(LIBFT_DIR)
-
-# $(NAME): $(OBJ_FILES)
-# 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(LIBFT)
-
-# %.o: %.c
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# clean:
-# 	$(MAKE) -C $(LIBFT_DIR) clean
-# 	rm -f $(OBJ_FILES)
-
-# fclean: clean
-# 	$(MAKE) -C $(LIBFT_DIR) fclean
-# 	rm -f $(NAME)
-
-# re: fclean all
-
-# .PHONY: all clean fclean re
-
-CC      = cc
-CFLAGS  = -Wall -Wextra -Werror
-
-NAME    = so_long
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+NAME = so_long
 
 LIBFT_DIR = ./libft
-LIBFT     = $(LIBFT_DIR)/libft.a
+LIBFT = $(LIBFT_DIR)/libft.a
 
-MLX_DIR   = ./mlx_linux
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+MLX_DIR = ./mlx_mac
+MLX = $(MLX_DIR)/libmlx.a
 
-SRC_DIR = src
-SRCS    = $(wildcard $(SRC_DIR)/*.c)
-OBJS    = $(SRCS:.c=.o)
+SRCS = parsing.c map_handling.c pathing.c main.c
+
+OBJ_FILES = $(SRCS:.c=.o)
 
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(OBJ_FILES)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_FILES) $(LIBFT) $(MLX) -lmlx -framework OpenGL -framework AppKit
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(MLX_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(MAKE) -C $(LIBFT_DIR) clean
-	@rm -f $(OBJS)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	rm -f $(OBJ_FILES)
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean
-	@rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+
+
+# # ───── Compiler & Flags ─────
+# CC      = cc
+# CFLAGS  = -Wall -Wextra -Werror
+
+# # ───── Project Name ─────
+# NAME    = so_long
+
+# # ───── Directories ─────
+# SRC_DIR     = src
+# LIBFT_DIR   = ./libft
+
+# # ───── Source Files ─────
+# SRCS        = $(wildcard $(SRC_DIR)/*.c)
+# OBJS        = $(SRCS:.c=.o)
+
+# # ───── Libft ─────
+# LIBFT       = $(LIBFT_DIR)/libft.a
+
+# # ───── Platform Detection for MiniLibX ─────
+# UNAME       := $(shell uname)
+
+# ifeq ($(UNAME), Darwin)
+# 	MLX
+
+
+# CC      = cc
+# CFLAGS  = -Wall -Wextra -Werror
+
+# NAME    = so_long
+
+# LIBFT_DIR = ./libft
+# LIBFT     = $(LIBFT_DIR)/libft.a
+
+# MLX_DIR   = ./mlx_linux
+# MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+
+# SRC_DIR = src
+# SRCS    = $(wildcard $(SRC_DIR)/*.c)
+# OBJS    = $(SRCS:.c=.o)
+
+# all: $(LIBFT) $(NAME)
+
+# $(LIBFT):
+# 	@$(MAKE) -C $(LIBFT_DIR)
+
+# $(NAME): $(OBJS)
+# 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+
+# %.o: %.c
+# 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(MLX_DIR) -c $< -o $@
+
+# clean:
+# 	@$(MAKE) -C $(LIBFT_DIR) clean
+# 	@rm -f $(OBJS)
+
+# fclean: clean
+# 	@$(MAKE) -C $(LIBFT_DIR) fclean
+# 	@rm -f $(NAME)
+
+# re: fclean all
+
+# .PHONY: all clean fclean re
