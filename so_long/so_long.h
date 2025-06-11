@@ -9,7 +9,7 @@
 # include <math.h>
 # include <string.h>
 
-# define TILE_SIZE 32
+# define TILE_SIZE 64
 
 
 typedef struct s_map
